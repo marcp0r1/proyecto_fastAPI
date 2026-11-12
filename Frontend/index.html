@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cinema API: consulta, añade, edita y elimina películas.">
+    <title>Cinema API</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>CINEMA<span>API</span></h1>
+
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#peliculas">Películas</a>
+            <a href="#documentacion">Documentación</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <section id="inicio" class="hero">
+            <h2>Tu mundo de cine</h2>
+            <p>Descubre, consulta y gestiona tus películas favoritas.</p>
+            <a href="#peliculas" class="boton">Explorar películas</a>
+        </section>
+
+        <section id="peliculas" class="peliculas">
+            <h2>Películas</h2>
+            <button id="mostrar-formulario" class="boton">
+                Añadir película
+            </button>
+            <div id="lista-peliculas" class="grid-peliculas"></div>
+        </section>
+
+        <section id="formulario-pelicula" class="formulario" style="display: none;">
+            <h2 id="titulo-formulario">Añadir película</h2>
+
+            <form id="form-pelicula" autocomplete="off">
+                <input type="text" id="titulo" placeholder="Título" required>
+                <input type="text" id="director" placeholder="Director" required>
+                <input type="number" id="año" placeholder="Año" step="1" required>
+                <input type="text" id="genero" placeholder="Género" required>
+                <textarea id="sinopsis" placeholder="Sinopsis" required></textarea>
+                <input type="number" id="puntuacion" placeholder="Puntuación" step="0.1" min="0" max="10" required>
+
+                <div class="acciones-formulario">
+                    <button type="submit" class="boton">Guardar película</button>
+                    <button type="button" id="cancelar-formulario" class="boton boton-secundario">Cancelar</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="detalle-pelicula" class="detalle-pelicula" style="display: none;">
+            <button id="volver-btn" class="boton">Volver a películas</button>
+
+            <div id="informacion-pelicula"></div>
+        </section>
+
+        <section id="documentacion" class="documentacion">
+            <h2>Documentación de la API</h2>
+            <p>La API de Cinema permite gestionar un catálogo de películas: consultar, crear, actualizar y eliminar registros. Todos los datos se intercambian en formato JSON.</p>
+
+            <h3 class="doc-subtitulo">Endpoints disponibles</h3>
+            <div class="tabla-scroll">
+                <table class="tabla-endpoints">
+                    <thead>
+                        <tr>
+                            <th>Método</th>
+                            <th>Ruta</th>
+                            <th>Descripción</th>
+                            <th>Cuerpo de entrada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="metodo get">GET</span></td>
+                            <td><code>/peliculas</code></td>
+                            <td>Lista todas las películas</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><span class="metodo get">GET</span></td>
+                            <td><code>/peliculas/{id}</code></td>
+                            <td>Obtiene una película por su ID</td>
+                            <td>— (<code>id</code> en la ruta)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="metodo post">POST</span></td>
+                            <td><code>/peliculas</code></td>
+                            <td>Crea una nueva película</td>
+                            <td>JSON con los campos de una película</td>
+                        </tr>
+                        <tr>
+                            <td><span class="metodo put">PUT</span></td>
+                            <td><code>/peliculas/{id}</code></td>
+                            <td>Actualiza una película existente</td>
+                            <td>JSON con los campos de una película</td>
+                        </tr>
+                        <tr>
+                            <td><span class="metodo delete">DELETE</span></td>
+                            <td><code>/peliculas/{id}</code></td>
+                            <td>Elimina una película por su ID</td>
+                            <td>—</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="doc-subtitulo">Campos de una película</h3>
+            <div class="tabla-scroll">
+                <table class="tabla-endpoints">
+                    <thead>
+                        <tr>
+                            <th>Campo</th>
+                            <th>Tipo</th>
+                            <th>Obligatorio</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>titulo</code></td>
+                            <td>string</td>
+                            <td>Sí</td>
+                            <td>Título de la película</td>
+                        </tr>
+                        <tr>
+                            <td><code>director</code></td>
+                            <td>string</td>
+                            <td>Sí</td>
+                            <td>Director de la película</td>
+                        </tr>
+                        <tr>
+                            <td><code>año</code></td>
+                            <td>integer</td>
+                            <td>Sí</td>
+                            <td>Año de estreno</td>
+                        </tr>
+                        <tr>
+                            <td><code>genero</code></td>
+                            <td>string</td>
+                            <td>Sí</td>
+                            <td>Género cinematográfico</td>
+                        </tr>
+                        <tr>
+                            <td><code>sinopsis</code></td>
+                            <td>string</td>
+                            <td>No</td>
+                            <td>Resumen de la trama (<code>null</code> por defecto)</td>
+                        </tr>
+                        <tr>
+                            <td><code>puntuacion</code></td>
+                            <td>number</td>
+                            <td>No</td>
+                            <td>Nota de 0 a 10 (<code>null</code> por defecto)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="doc-subtitulo">Ejemplos de petición y respuesta</h3>
+            <div class="doc-ejemplos">
+                <article class="ejemplo">
+                    <h3>Crear película</h3>
+                    <p class="ejemplo-ruta"><span class="metodo post">POST</span> <code>/peliculas</code></p>
+
+                    <p class="ejemplo-etiqueta">Petición</p>
+                    <pre><code>{
+  "titulo": "Interstellar",
+  "director": "Christopher Nolan",
+  "año": 2014,
+  "genero": "Ciencia ficción",
+  "sinopsis": "Un grupo de exploradores viaja a través de un agujero de gusano.",
+  "puntuacion": 8.7
+}</code></pre>
+
+                    <p class="ejemplo-etiqueta">Respuesta 201 Created</p>
+                    <pre><code>{
+  "titulo": "Interstellar",
+  "director": "Christopher Nolan",
+  "año": 2014,
+  "genero": "Ciencia ficción",
+  "sinopsis": "Un grupo de exploradores viaja a través de un agujero de gusano.",
+  "puntuacion": 8.7,
+  "id": 1
+}</code></pre>
+                </article>
+
+                <article class="ejemplo">
+                    <h3>Consultar una película</h3>
+                    <p class="ejemplo-ruta"><span class="metodo get">GET</span> <code>/peliculas/999</code></p>
+
+                    <p class="ejemplo-etiqueta">Respuesta 404 Not Found</p>
+                    <pre><code>{
+  "detail": "Película no encontrada"
+}</code></pre>
+
+                    <p class="ejemplo-etiqueta">Eliminar una película</p>
+                    <pre><code>DELETE /peliculas/1
+
+{
+  "mensaje": "Película eliminada correctamente"
+}</code></pre>
+                </article>
+            </div>
+
+            <p>También puedes probar todos los endpoints desde la documentación automática de FastAPI:</p>
+            <a href="http://127.0.0.1:8000/docs" target="_blank">
+                Ver documentación de FastAPI
+            </a>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>2026 Cinema API - Todos los derechos reservados</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
